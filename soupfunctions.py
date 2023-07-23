@@ -1,11 +1,10 @@
 from bs4 import BeautifulSoup
-import re
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-def get_soup(sub_URL, is_dynamic):
+def get_soup_from_goldfish(sub_URL, is_dynamic):
     base_URL = "https://www.mtggoldfish.com"
     URL = base_URL + sub_URL
     print("Getting page for " + URL)
@@ -23,12 +22,12 @@ def get_soup(sub_URL, is_dynamic):
     soup = BeautifulSoup(content, "html.parser")
     return soup
 
-def get_decks():
-    soup = get_soup("/deck/custom/commander#paper", False)
-    elements = soup.find_all("span", class_="deck-price-paper")
-    decks = []
-    for el in elements:
-        href = el.find("a").get("href")
-        if bool(re.search(r'\d', href)):
-            decks.append(href)
-    return decks
+def get_soup_from_file(file_path):
+    with open(file_path) as f:
+        return BeautifulSoup(f, 'html.parser')
+
+def get_soup(sub_URL:str, is_dynamic:bool):
+    if sub_URL.endswith(".html"):
+        return get_soup_from_file(sub_URL)
+    else:   
+        return get_soup_from_goldfish(sub_URL, is_dynamic)

@@ -1,24 +1,28 @@
-from soupfunctions import get_decks, get_soup
+from deckutil import DeckUtil
+from soupfunctions import get_soup
+from deck import Deck
+from fileutil import get_deck_paths
+import heapq
 
-def map_cards(deck_uri):
-    soup = get_soup(deck_uri, True)
-    card_elements = soup.find_all("span", class_="card_id")
-    card_set = set()
-    for el in card_elements:
-        a_tag = el.find("a")
-        name = a_tag.text
-        card_set.add(name)
-    return card_set
+# deck_paths = DeckUtil.get_decks_from_web()
 
-decks = get_decks()
-decks = decks[:2]
+deck_paths = get_deck_paths()
+
 card_dict = {}
-
-for deck in decks:
-    cards = map_cards(deck)
-    for card in cards:
+for deck_path in deck_paths:
+    deck_soup = get_soup(deck_path, True)
+    deck = Deck(deck_soup)
+    # deck.write_deck_to_file()
+    
+    print("Getting cards for: " + deck.get_title())
+    for card in deck.get_cards():
         card_dict[card] = (card_dict.get(card, 0) + 1)
 
+heap = []
 for card_name, count in card_dict.items():
-    if(count > 1):
-        print(card_name + f" was seen {count} times")
+    heapq.heappush(heap, (-count, card_name))
+        
+for x in range(10):
+    card = heapq.heappop(heap)
+    print(card[1] + f" was seen {str(-card[0])} times")
+
