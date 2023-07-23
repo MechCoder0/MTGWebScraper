@@ -17,9 +17,14 @@ class DeckUtil:
     @staticmethod
     def get_top_cards(card_dict, number_of_cards):
         heap = []
+        top_cards = {}
         for card_name, count in card_dict.items():
             heapq.heappush(heap, (-count, card_name))
                 
         for x in range(number_of_cards):
             card = heapq.heappop(heap)
             print(card[1] + f" was seen {str(-card[0])} times")
+            top_cards[card[1]] = -card[0]
+        
+        return top_cards
+    
