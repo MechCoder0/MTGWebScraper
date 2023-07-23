@@ -1,4 +1,4 @@
-from fileutil import write_to_file
+from file_util import write_to_file
 
 class Deck:
     def __init__(self, soup):

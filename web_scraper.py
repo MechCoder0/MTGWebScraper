@@ -1,8 +1,8 @@
-from deckutil import DeckUtil
-from soupfunctions import get_soup
-from deck import Deck
-from fileutil import get_deck_paths
-from apirequest import get_price_by_name
+from deck_util import DeckUtil
+from soup_functions import get_soup
+from Deck import Deck
+from file_util import get_deck_paths
+from api_request import get_price_by_name
 import sys
 
 def should_get_from_web():
@@ -39,6 +39,6 @@ for deck_path in deck_paths:
     for card in deck.get_cards():
         card_dict[card] = (card_dict.get(card, 0) + 1)
 
-top_cards = DeckUtil.get_top_cards(card_dict, 2)
+top_cards = DeckUtil.get_top_cards(card_dict, 10)
 
 ratios = get_ratios(top_cards)
