@@ -1,5 +1,6 @@
 from soupfunctions import get_soup
 import re
+import heapq
 
 class DeckUtil:
     @staticmethod
@@ -12,3 +13,13 @@ class DeckUtil:
             if bool(re.search(r'\d', href)):
                 decks.append(href)
         return decks
+    
+    @staticmethod
+    def get_top_cards(card_dict, number_of_cards):
+        heap = []
+        for card_name, count in card_dict.items():
+            heapq.heappush(heap, (-count, card_name))
+                
+        for x in range(number_of_cards):
+            card = heapq.heappop(heap)
+            print(card[1] + f" was seen {str(-card[0])} times")

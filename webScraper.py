@@ -2,11 +2,12 @@ from deckutil import DeckUtil
 from soupfunctions import get_soup
 from deck import Deck
 from fileutil import get_deck_paths
-import heapq
+import sys
 
-# deck_paths = DeckUtil.get_decks_from_web()
-
-deck_paths = get_deck_paths()
+if len(sys.argv) > 1 and sys.argv == "web":
+    deck_paths = DeckUtil.get_decks_from_web()
+else:
+    deck_paths = get_deck_paths()
 
 card_dict = {}
 for deck_path in deck_paths:
@@ -18,11 +19,5 @@ for deck_path in deck_paths:
     for card in deck.get_cards():
         card_dict[card] = (card_dict.get(card, 0) + 1)
 
-heap = []
-for card_name, count in card_dict.items():
-    heapq.heappush(heap, (-count, card_name))
-        
-for x in range(10):
-    card = heapq.heappop(heap)
-    print(card[1] + f" was seen {str(-card[0])} times")
+DeckUtil.get_top_cards(card_dict, 2)
 
