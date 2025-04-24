@@ -6,7 +6,7 @@ cffi==1.15.1
 charset-normalizer==3.2.0
 colorama==0.4.6
 exceptiongroup==1.1.2
-h11==0.14.0
+h11==0.16.0
 idna==3.4
 outcome==1.2.0
 packaging==23.1
